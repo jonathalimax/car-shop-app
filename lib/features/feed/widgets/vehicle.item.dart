@@ -1,4 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_shop_app/components/gallery/views/gallery.photo.dart';
+import 'package:car_shop_app/components/gallery/views/gallery.thumbnail.dart';
+import 'package:car_shop_app/components/gallery/model/gallery.item.model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -14,13 +16,48 @@ class _ProductItemState extends State<ProductItem> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> imgList = [
-      'https://cdn-motorshow-ssl.akamaized.net/wp-content/uploads/sites/2/2020/01/12_ms431_cruze3.jpg',
-      'https://cdn-motorshow-ssl.akamaized.net/wp-content/uploads/sites/2/2020/01/12_ms431_cruze1.jpg',
-      'https://cdn-motorshow-ssl.akamaized.net/wp-content/uploads/sites/2/2020/01/12_ms431_cruze2.jpg',
-      'https://cdn-motorshow-ssl.akamaized.net/wp-content/uploads/sites/2/2020/01/12_ms431_cruze4.jpg',
-      'https://cdn-motorshow-ssl.akamaized.net/wp-content/uploads/sites/2/2020/01/12_ms431_cruze5.jpg',
+    List<GalleryItemModel> images = [
+      GalleryItemModel(
+        id: 1,
+        url:
+            'https://www.blogauto.com.br/wp-content/2014/06/2D8A0835bc-643x429.jpg',
+        description: 'Frontal',
+      ),
+      GalleryItemModel(
+        id: 2,
+        url:
+            'https://www.blogauto.com.br/wp-content/2014/06/2D8A7987-390x260.jpg',
+        description: 'Lateral',
+      ),
+      GalleryItemModel(
+        id: 3,
+        url:
+            'https://www.blogauto.com.br/wp-content/2014/06/2D8A8876b-643x429.jpg',
+        description: 'Interior',
+      ),
+      GalleryItemModel(
+        id: 4,
+        url:
+            'https://www.blogauto.com.br/wp-content/2014/06/2D8A0713bC-390x260.jpg',
+        description: 'Motor',
+      ),
     ];
+
+    void _open(BuildContext context, final int index) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GalleryImage(
+            images: images,
+            backgroundDecoration: const BoxDecoration(
+              color: Colors.black,
+            ),
+            startIndex: index,
+            scrollDirection: Axis.horizontal,
+          ),
+        ),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.only(left: 14, top: 14, right: 14),
@@ -44,40 +81,32 @@ class _ProductItemState extends State<ProductItem> {
             Column(
               children: [
                 Container(
-                  child: Builder(
-                    builder: (context) {
-                      final double height = 250;
-                      return CarouselSlider(
-                        options: CarouselOptions(
-                            height: height,
-                            viewportFraction: 1.0,
-                            enlargeCenterPage: false,
-                            autoPlay: false,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                _current = index;
-                              });
-                            }),
-                        items: imgList
-                            .map(
-                              (item) => Container(
-                                child: Center(
-                                  child: CachedNetworkImage(
-                                    imageUrl: item,
-                                    fit: BoxFit.cover,
-                                    height: height,
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      );
-                    },
+                  child: CarouselSlider(
+                    items: images
+                        .map(
+                          (item) => Container(
+                            height: 250,
+                            child: GalleryThumbnail(
+                              model: item,
+                              onTap: () {
+                                _open(context, _current);
+                              },
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    options: CarouselOptions(
+                        viewportFraction: 1.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: imgList.map((url) {
+                  children: images.map((item) {
                     return Container(
                       width: 15.0,
                       height: 8.0,
@@ -87,7 +116,7 @@ class _ProductItemState extends State<ProductItem> {
                       ),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: _current == imgList.indexOf(url)
+                        color: _current == images.indexOf(item)
                             ? Color.fromRGBO(0, 0, 0, 1)
                             : Color.fromRGBO(0, 0, 0, 0.4),
                       ),
