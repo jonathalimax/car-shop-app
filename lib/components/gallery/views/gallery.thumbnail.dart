@@ -23,6 +23,11 @@ class GalleryThumbnail extends StatelessWidget {
             imageUrl: model.url,
             width: MediaQuery.of(context).size.width - 20,
             fit: BoxFit.cover,
+            cacheKey: model.id.toString(),
+            filterQuality: FilterQuality.high,
+            placeholder: (context, url) => Center(
+              child: RefreshProgressIndicator(),
+            ),
           ),
         ),
       ),

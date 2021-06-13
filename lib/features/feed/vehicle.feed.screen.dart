@@ -1,3 +1,4 @@
+import 'package:car_shop_app/features/feed/vehicle.details.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.item.dart';
 
@@ -12,6 +13,15 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
   List<Map<String, String>> products = [
     {"name": "Roupa"},
   ];
+
+  void _openDetailScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VehicleDetailsScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +38,9 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
       body: ListView.builder(
         itemCount: products.length,
         itemBuilder: (context, index) {
-          return ProductItem();
+          return VehicleItem(
+            openDetailScreen: _openDetailScreen,
+          );
         },
       ),
     );

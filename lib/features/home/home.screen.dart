@@ -1,3 +1,5 @@
+import 'package:car_shop_app/features/profile/profile.screen.dart';
+import 'package:car_shop_app/features/store/store.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:car_shop_app/features/feed/vehicle.feed.screen.dart';
 import 'package:car_shop_app/classes/custom.colors.dart';
@@ -16,8 +18,8 @@ class _HomeScreen extends State<HomeScreen> {
   PageController _pageController = PageController();
   List<Widget> _screens = [
     VehicleFeedScreen(),
-    VehicleFeedScreen(),
-    VehicleFeedScreen()
+    StoreScreen(),
+    ProfileScreen(),
   ];
 
   var _selectedTab = _SelectedTab.products;
@@ -47,28 +49,28 @@ class _HomeScreen extends State<HomeScreen> {
 
   SalomonBottomBar buildBottomBar() {
     return SalomonBottomBar(
-      margin: EdgeInsets.only(left: 30, right: 30, bottom: 30, top: 15),
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
       currentIndex: _SelectedTab.values.indexOf(_selectedTab),
       onTap: _handleIndexChanged,
       items: [
         /// Home
         SalomonBottomBarItem(
-          icon: Icon(Icons.car_rental),
+          icon: Icon(Icons.directions_car_outlined),
           title: Text("Veículos"),
-          selectedColor: CustomColors.darkPurple,
+          selectedColor: CustomColors.blue,
         ),
 
         SalomonBottomBarItem(
-          icon: Icon(Icons.store_mall_directory_rounded),
+          icon: Icon(Icons.storefront_rounded),
           title: Text("Loja"),
-          selectedColor: CustomColors.darkPurple,
+          selectedColor: CustomColors.blue,
         ),
 
         /// Profile
         SalomonBottomBarItem(
-          icon: Icon(Icons.account_circle),
+          icon: Icon(Icons.account_circle_outlined),
           title: Text("Meu Perfil"),
-          selectedColor: CustomColors.darkPurple,
+          selectedColor: CustomColors.blue,
         ),
       ],
     );

@@ -45,7 +45,7 @@ class _GalleryImageState extends State<GalleryImage> {
   }
 
   void onDragDown(DragStartDetails dragDownDetails) {
-    Navigator.pop(context);
+    Navigator.pop(context, _currentIndex);
   }
 
   @override
@@ -96,12 +96,13 @@ class _GalleryImageState extends State<GalleryImage> {
     return PhotoViewGalleryPageOptions(
       imageProvider: CachedNetworkImageProvider(
         item.url,
-        maxWidth: MediaQuery.of(context).size.width.toInt(),
+        cacheKey: item.id.toString(),
       ),
       initialScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained,
       maxScale: PhotoViewComputedScale.covered,
       heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+      filterQuality: FilterQuality.high,
     );
   }
 }
