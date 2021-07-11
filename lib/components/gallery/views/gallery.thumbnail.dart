@@ -1,4 +1,4 @@
-import 'package:car_shop_app/components/gallery/model/gallery.item.model.dart';
+import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,6 @@
 import 'package:car_shop_app/components/gallery/views/gallery.photo.dart';
 import 'package:car_shop_app/components/gallery/views/gallery.thumbnail.dart';
-import 'package:car_shop_app/components/gallery/model/gallery.item.model.dart';
+import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 

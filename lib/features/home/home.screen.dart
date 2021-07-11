@@ -43,7 +43,7 @@ class _HomeScreen extends State<HomeScreen> {
         onPageChanged: _onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
-      bottomNavigationBar: buildBottomBar(),
+      bottomNavigationBar: SafeArea(child: buildBottomBar()),
     );
   }
 
