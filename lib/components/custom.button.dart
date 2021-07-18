@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({Key key}) : super(key: key);
+  final String title;
+  final Color color;
+
+  final _url = 'https://wa.me/5511988419332';
+  void _launchURL() async =>
+      await canLaunch(_url) ? await launch(_url) : throw 'Not found $_url';
+
+  const CustomButton({
+    Key key,
+    this.title,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,17 +21,17 @@ class CustomButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 46,
       child: ElevatedButton(
-        onPressed: () {},
-        child: Text('ENTER TO YOUR ACCOUNT'),
+        onPressed: _launchURL,
+        child: Text(title),
         style: ButtonStyle(
           textStyle: MaterialStateProperty.all(
             TextStyle(
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: FontWeight.w700,
             ),
           ),
           backgroundColor: MaterialStateProperty.all(
-            Theme.of(context).primaryColor,
+            color,
           ),
         ),
       ),

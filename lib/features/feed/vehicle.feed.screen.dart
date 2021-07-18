@@ -1,5 +1,5 @@
-import 'package:car_shop_app/features/feed/vehicle.details.screen.dart';
 import 'package:flutter/material.dart';
+import 'package:car_shop_app/features/feed/vehicle.tabbar.screen.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.item.dart';
 
 class VehicleFeedScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => VehicleDetailsScreen(),
+        builder: (context) => VehicleTabBarScreen(),
       ),
     );
   }
