@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
   final Color color;
-
-  final _url = 'https://wa.me/5511988419332';
-  void _launchURL() async =>
-      await canLaunch(_url) ? await launch(_url) : throw 'Not found $_url';
+  final Function action;
 
   const CustomButton({
     Key key,
     this.title,
     this.color,
+    this.action,
   }) : super(key: key);
 
   @override
@@ -21,7 +18,7 @@ class CustomButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: 46,
       child: ElevatedButton(
-        onPressed: _launchURL,
+        onPressed: action,
         child: Text(title),
         style: ButtonStyle(
           textStyle: MaterialStateProperty.all(

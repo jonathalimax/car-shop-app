@@ -1,4 +1,5 @@
 import 'package:car_shop_app/classes/custom.colors.dart';
+import 'package:car_shop_app/classes/whatsapp.message.dart';
 import 'package:car_shop_app/components/custom.button.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ class VehicleStore extends StatefulWidget {
 }
 
 class _VehicleStoreState extends State<VehicleStore> {
+  final WhatsappMessage _wppMessage = WhatsappMessage();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -55,10 +58,19 @@ class _VehicleStoreState extends State<VehicleStore> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              Spacer(),
+              SizedBox(height: 20),
+              Flexible(
+                child: Container(),
+              ),
+              SizedBox(height: 20),
               CustomButton(
-                title: 'Contato via Whatsapp',
-                color: CustomColors.blue,
+                title: 'Entrar em contato'.toUpperCase(),
+                color: CustomColors.purple,
+                action: () => {
+                  // TODO: Insert information about the car
+                  _wppMessage.send(
+                      'Gostaria de obter mais informações sobre o carro X'),
+                },
               ),
             ],
           ),

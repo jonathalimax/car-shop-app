@@ -20,6 +20,7 @@ class VehicleItem extends StatefulWidget {
 
 class _VehicleItemState extends State<VehicleItem> {
   int _current = 0;
+  CarouselController _carouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +68,7 @@ class _VehicleItemState extends State<VehicleItem> {
 
       setState(() {
         _current = result;
+        _carouselController.jumpToPage(_current);
       });
     }
 
@@ -96,6 +98,7 @@ class _VehicleItemState extends State<VehicleItem> {
                   children: [
                     Container(
                       child: CarouselSlider(
+                        carouselController: _carouselController,
                         items: images
                             .map(
                               (item) => Container(
