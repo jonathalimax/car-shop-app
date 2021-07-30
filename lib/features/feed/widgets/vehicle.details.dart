@@ -3,8 +3,6 @@ import 'package:car_shop_app/features/feed/widgets/vehicle.optionals.dart';
 import 'package:flutter/material.dart';
 
 class VehicleDetails extends StatefulWidget {
-  VehicleDetails({Key key}) : super(key: key);
-
   @override
   _VehicleDetailsState createState() => _VehicleDetailsState();
 }

@@ -5,24 +5,19 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class GalleryImage extends StatefulWidget {
-  final LoadingBuilder loadingBuilder;
-  final Decoration backgroundDecoration;
-  final dynamic minScale;
-  final dynamic maxScale;
+  final LoadingBuilder? loadingBuilder;
+  final BoxDecoration backgroundDecoration;
   final int startIndex;
   final PageController pageController;
   final List<GalleryItemModel> images;
   final Axis scrollDirection;
 
   GalleryImage({
-    Key key,
     this.loadingBuilder,
-    this.backgroundDecoration,
-    this.minScale,
-    this.maxScale,
-    this.startIndex,
-    this.images,
-    this.scrollDirection,
+    required this.backgroundDecoration,
+    required this.startIndex,
+    required this.images,
+    required this.scrollDirection,
   }) : pageController = PageController(initialPage: startIndex);
 
   @override
@@ -30,7 +25,7 @@ class GalleryImage extends StatefulWidget {
 }
 
 class _GalleryImageState extends State<GalleryImage> {
-  int _currentIndex;
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -44,50 +39,57 @@ class _GalleryImageState extends State<GalleryImage> {
     });
   }
 
-  void onDragDown(DragStartDetails dragDownDetails) {
-    Navigator.pop(context, _currentIndex);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: WillPopScope(
         onWillPop: () async => false,
-        child: GestureDetector(
-          onVerticalDragStart: onDragDown,
-          child: Container(
-            decoration: widget.backgroundDecoration,
-            constraints: BoxConstraints.expand(
-              height: MediaQuery.of(context).size.height,
-            ),
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                PhotoViewGallery.builder(
-                  scrollPhysics: BouncingScrollPhysics(),
-                  itemCount: widget.images.length,
-                  builder: _buildItem,
-                  loadingBuilder: widget.loadingBuilder,
-                  backgroundDecoration: widget.backgroundDecoration,
-                  pageController: widget.pageController,
-                  onPageChanged: onPageChanged,
-                  scrollDirection: widget.scrollDirection,
+        child: Container(
+          decoration: widget.backgroundDecoration,
+          constraints: BoxConstraints.expand(
+            height: MediaQuery.of(context).size.height,
+          ),
+          child: Stack(
+            //alignment: Alignment.,
+            children: [
+              PhotoViewGallery.builder(
+                scrollPhysics: BouncingScrollPhysics(),
+                itemCount: widget.images.length,
+                builder: _buildItem,
+                loadingBuilder: widget.loadingBuilder,
+                backgroundDecoration: widget.backgroundDecoration,
+                pageController: widget.pageController,
+                onPageChanged: onPageChanged,
+                scrollDirection: widget.scrollDirection,
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: SafeArea(
+                  child: IconButton(
+                    icon: Icon(Icons.close),
+                    color: Colors.white,
+                    onPressed: () => Navigator.pop(context, _currentIndex),
+                  ),
                 ),
-                SafeArea(
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SafeArea(
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     child: Text(
                       widget.images[_currentIndex].description,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

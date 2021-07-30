@@ -4,8 +4,8 @@ class GalleryItemModel {
   final String description;
 
   GalleryItemModel({
-    this.id,
-    this.url,
-    this.description,
+    required this.id,
+    required this.url,
+    required this.description,
   });
 }

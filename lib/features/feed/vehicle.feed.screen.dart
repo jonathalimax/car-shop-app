@@ -3,8 +3,6 @@ import 'package:car_shop_app/features/feed/vehicle.tabbar.screen.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.item.dart';
 
 class VehicleFeedScreen extends StatefulWidget {
-  VehicleFeedScreen({Key key}) : super(key: key);
-
   @override
   _VehicleFeedScreenState createState() => _VehicleFeedScreenState();
 }
@@ -39,7 +37,7 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
         itemCount: products.length,
         itemBuilder: (context, index) {
           return VehicleItem(
-            openDetailScreen: _openDetailScreen,
+            openDetailScreen: () => _openDetailScreen(),
           );
         },
       ),

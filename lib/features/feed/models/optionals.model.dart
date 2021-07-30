@@ -4,8 +4,8 @@ class OptionalsModel {
   final String description;
 
   OptionalsModel({
-    this.id,
-    this.name,
-    this.description,
+    required this.id,
+    required this.name,
+    required this.description,
   });
 }

@@ -5,9 +5,8 @@ class VehicleOptionals extends StatelessWidget {
   final List<OptionalsModel> optionals;
 
   const VehicleOptionals({
-    Key key,
-    this.optionals,
-  }) : super(key: key);
+    required this.optionals,
+  });
 
   @override
   Widget build(BuildContext context) {

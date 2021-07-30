@@ -7,10 +7,9 @@ class GalleryThumbnail extends StatelessWidget {
   final GestureTapCallback onTap;
 
   const GalleryThumbnail({
-    Key key,
-    this.model,
-    this.onTap,
-  }) : super(key: key);
+    required this.model,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

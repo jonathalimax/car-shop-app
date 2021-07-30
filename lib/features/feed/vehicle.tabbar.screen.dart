@@ -3,8 +3,6 @@ import 'package:car_shop_app/features/feed/widgets/vehicle.store.dart';
 import 'package:flutter/material.dart';
 
 class VehicleTabBarScreen extends StatelessWidget {
-  const VehicleTabBarScreen({Key key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,6 +11,10 @@ class VehicleTabBarScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
+              labelStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
               tabs: [
                 Tab(text: 'Detalhes'),
                 Tab(text: 'Loja'),

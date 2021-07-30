@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "124095886756",
+    "project_id": "car-shop-flutter",
+    "storage_bucket": "car-shop-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124095886756:android:54edc79e5ce3ed74fb3d31",
+        "android_client_info": {
+          "package_name": "com.example.car_shop_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124095886756-db410h7gq6p4vo30011dhb4lequd3k91.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0_stBVolMoOt6WfHMdUZfUC8F1jkV1mY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124095886756-db410h7gq6p4vo30011dhb4lequd3k91.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "124095886756-k9cciq4h8g5np1n86viucnrdvjsgem67.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.boardclass.sample"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

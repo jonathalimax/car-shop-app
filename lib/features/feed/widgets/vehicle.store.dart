@@ -1,11 +1,11 @@
 import 'package:car_shop_app/classes/custom.colors.dart';
 import 'package:car_shop_app/classes/whatsapp.message.dart';
 import 'package:car_shop_app/components/custom.button.dart';
+import 'package:car_shop_app/components/maps/maps.sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 class VehicleStore extends StatefulWidget {
-  VehicleStore({Key key}) : super(key: key);
-
   @override
   _VehicleStoreState createState() => _VehicleStoreState();
 }
@@ -42,7 +42,7 @@ class _VehicleStoreState extends State<VehicleStore> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               Text(
                 'Endereço',
                 style: TextStyle(
@@ -58,18 +58,48 @@ class _VehicleStoreState extends State<VehicleStore> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
+              Align(
+                alignment: Alignment.center,
+                child: TextButton(
+                  onPressed: () {
+                    MapsSheet.show(
+                      context: context,
+                      onMapTap: (map) {
+                        map.showDirections(
+                          destination: Coords(
+                            -22.8569037,
+                            -47.0574117,
+                          ),
+                          destinationTitle: "Loja 1",
+                          origin: Coords(-22.9114663, -47.1212839),
+                          originTitle: "",
+                          directionsMode: DirectionsMode.driving,
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    "Navegar para loja".toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
               Flexible(
                 child: Container(),
               ),
               SizedBox(height: 20),
               CustomButton(
-                title: 'Entrar em contato'.toUpperCase(),
+                title: 'Enviar mensagem'.toUpperCase(),
                 color: CustomColors.purple,
                 action: () => {
                   // TODO: Insert information about the car
                   _wppMessage.send(
-                      'Gostaria de obter mais informações sobre o carro X'),
+                      'Gostaria de obter mais informações sobre o carro X',
+                      '5511988419332'),
                 },
               ),
             ],

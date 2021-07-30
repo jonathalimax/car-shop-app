@@ -5,12 +5,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class VehicleItem extends StatefulWidget {
-  final Function openDetailScreen;
+  final VoidCallback openDetailScreen;
 
   VehicleItem({
-    Key key,
-    this.openDetailScreen,
-  }) : super(key: key);
+    required this.openDetailScreen,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -76,7 +75,7 @@ class _VehicleItemState extends State<VehicleItem> {
       child: Padding(
         padding: const EdgeInsets.only(left: 14, top: 14, right: 14),
         child: GestureDetector(
-          onTap: widget.openDetailScreen,
+          onTap: () => widget.openDetailScreen(),
           child: Container(
             height: 400,
             decoration: BoxDecoration(
@@ -105,9 +104,7 @@ class _VehicleItemState extends State<VehicleItem> {
                                 height: 250,
                                 child: GalleryThumbnail(
                                   model: item,
-                                  onTap: () {
-                                    _openGallery(context, _current);
-                                  },
+                                  onTap: () => _openGallery(context, _current),
                                 ),
                               ),
                             )

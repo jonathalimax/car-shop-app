@@ -8,8 +8,6 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 enum _SelectedTab { products, sales, store }
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
-
   @override
   _HomeScreen createState() => _HomeScreen();
 }
@@ -61,7 +59,7 @@ class _HomeScreen extends State<HomeScreen> {
         ),
 
         SalomonBottomBarItem(
-          icon: Icon(Icons.storefront_rounded),
+          icon: Icon(Icons.storefront_outlined),
           title: Text("Loja"),
           selectedColor: CustomColors.blue,
         ),
