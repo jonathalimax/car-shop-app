@@ -1,18 +1,18 @@
-import 'package:car_shop_app/features/feed/models/optionals.model.dart';
+import 'package:car_shop_app/models/optionals.dart';
 import 'package:flutter/material.dart';
 
 class VehicleOptionals extends StatelessWidget {
-  final List<OptionalsModel> optionals;
+  late final List<Optional> _optionals;
 
-  const VehicleOptionals({
-    required this.optionals,
-  });
+  VehicleOptionals(List<Optional> optionals) {
+    this._optionals = optionals;
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final childWidth = (size.width / 2) - 28;
-    final childHeight = 30;
+    final childHeight = 40;
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,15 +33,19 @@ class VehicleOptionals extends StatelessWidget {
             shrinkWrap: true,
             primary: false,
             childAspectRatio: childWidth / childHeight,
-            children: optionals
+            children: _optionals
                 .map(
-                  (optional) => Container(
-                    padding: EdgeInsets.only(left: 14, top: 10, right: 14),
-                    child: Text(
-                      optional.name,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                  (optional) => Padding(
+                    padding: const EdgeInsets.only(left: 14, right: 14),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        optional.name,
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),

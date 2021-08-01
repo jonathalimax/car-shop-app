@@ -1,9 +1,13 @@
 import 'package:car_shop_app/classes/custom.colors.dart';
 import 'package:car_shop_app/features/home/home.screen.dart';
+import 'package:car_shop_app/repositories/cars.repository.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

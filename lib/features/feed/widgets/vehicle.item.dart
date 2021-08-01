@@ -1,13 +1,15 @@
 import 'package:car_shop_app/components/gallery/views/gallery.photo.dart';
 import 'package:car_shop_app/components/gallery/views/gallery.thumbnail.dart';
-import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
+import 'package:car_shop_app/models/car.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class VehicleItem extends StatefulWidget {
+  final Car car;
   final VoidCallback openDetailScreen;
 
   VehicleItem({
+    required this.car,
     required this.openDetailScreen,
   });
 
@@ -23,39 +25,12 @@ class _VehicleItemState extends State<VehicleItem> {
 
   @override
   Widget build(BuildContext context) {
-    List<GalleryItemModel> images = [
-      GalleryItemModel(
-        id: 1,
-        url:
-            'https://www.blogauto.com.br/wp-content/2014/06/2D8A0835bc-643x429.jpg',
-        description: 'Frontal',
-      ),
-      GalleryItemModel(
-        id: 2,
-        url:
-            'https://www.blogauto.com.br/wp-content/2014/06/2D8A7987-390x260.jpg',
-        description: 'Lateral',
-      ),
-      GalleryItemModel(
-        id: 3,
-        url:
-            'https://www.blogauto.com.br/wp-content/2014/06/2D8A8876b-643x429.jpg',
-        description: 'Interior',
-      ),
-      GalleryItemModel(
-        id: 4,
-        url:
-            'https://www.blogauto.com.br/wp-content/2014/06/2D8A0713bC-390x260.jpg',
-        description: 'Motor',
-      ),
-    ];
-
     void _openGallery(BuildContext context, final int index) async {
       final result = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => GalleryImage(
-            images: images,
+            images: widget.car.images ?? [],
             backgroundDecoration: const BoxDecoration(
               color: Colors.black,
             ),
@@ -98,7 +73,7 @@ class _VehicleItemState extends State<VehicleItem> {
                     Container(
                       child: CarouselSlider(
                         carouselController: _carouselController,
-                        items: images
+                        items: widget.car.images!
                             .map(
                               (item) => Container(
                                 height: 250,
@@ -121,7 +96,7 @@ class _VehicleItemState extends State<VehicleItem> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: images.map((item) {
+                      children: widget.car.images!.map((item) {
                         return Container(
                           width: 15.0,
                           height: 8.0,
@@ -131,7 +106,7 @@ class _VehicleItemState extends State<VehicleItem> {
                           ),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: _current == images.indexOf(item)
+                            color: _current == widget.car.images!.indexOf(item)
                                 ? Color.fromRGBO(0, 0, 0, 1)
                                 : Color.fromRGBO(0, 0, 0, 0.4),
                           ),
@@ -141,12 +116,17 @@ class _VehicleItemState extends State<VehicleItem> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(14),
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    left: 14,
+                    right: 14,
+                    bottom: 10,
+                  ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Marca',
+                        widget.car.brand,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 18,
@@ -155,7 +135,7 @@ class _VehicleItemState extends State<VehicleItem> {
                       ),
                       SizedBox(width: 5),
                       Text(
-                        'Modelo',
+                        widget.car.model,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 18,
@@ -164,96 +144,99 @@ class _VehicleItemState extends State<VehicleItem> {
                       ),
                       Spacer(),
                       Text(
-                        'R\$100.000,00',
+                        'R\$ ${widget.car.value}',
                         textAlign: TextAlign.right,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
                   ),
                 ),
+                twoSpecsLine(
+                  {'Câmbio': widget.car.gearbox},
+                  {'Combustível': widget.car.fuel},
+                ),
+                twoSpecsLine(
+                  {'Ano': widget.car.year},
+                  {'Hôdometro': '${widget.car.odometer} Km'},
+                ),
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 14,
                     right: 14,
-                    bottom: 14,
+                    bottom: 12,
                   ),
                   child: Text(
-                    'Título completo do anúncio gerado auto',
+                    widget.car.description,
                     textAlign: TextAlign.left,
-                    maxLines: 1,
+                    maxLines: 2,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 14,
-                    right: 14,
-                    bottom: 14,
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        '2012/2013',
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        '-',
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        '105.000 km',
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        '-',
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        'Preto',
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Padding twoSpecsLine(
+      Map<String, String> firstSpec, Map<String, String> secondSpec) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 14,
+        right: 14,
+        bottom: 12,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            firstSpec.keys.first,
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(width: 5),
+          Text(
+            firstSpec.values.first,
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          Spacer(),
+          Text(
+            secondSpec.keys.first,
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(width: 5),
+          Text(
+            secondSpec.values.first,
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       ),
     );
   }

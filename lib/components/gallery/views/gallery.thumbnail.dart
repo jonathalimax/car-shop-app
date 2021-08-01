@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class GalleryThumbnail extends StatelessWidget {
-  final GalleryItemModel model;
+  final GalleryItem model;
   final GestureTapCallback onTap;
 
   const GalleryThumbnail({

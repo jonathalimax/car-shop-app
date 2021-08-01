@@ -9,7 +9,7 @@ class GalleryImage extends StatefulWidget {
   final BoxDecoration backgroundDecoration;
   final int startIndex;
   final PageController pageController;
-  final List<GalleryItemModel> images;
+  final List<GalleryItem> images;
   final Axis scrollDirection;
 
   GalleryImage({
@@ -78,7 +78,7 @@ class _GalleryImageState extends State<GalleryImage> {
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     child: Text(
-                      widget.images[_currentIndex].description,
+                      widget.images[_currentIndex].name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -97,7 +97,7 @@ class _GalleryImageState extends State<GalleryImage> {
   }
 
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
-    final GalleryItemModel item = widget.images[index];
+    final GalleryItem item = widget.images[index];
     return PhotoViewGalleryPageOptions(
       imageProvider: CachedNetworkImageProvider(
         item.url,

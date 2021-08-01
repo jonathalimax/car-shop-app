@@ -1,3 +1,6 @@
+import 'package:car_shop_app/components/loader/loader.dart';
+import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/repositories/cars.repository.dart';
 import 'package:flutter/material.dart';
 import 'package:car_shop_app/features/feed/vehicle.tabbar.screen.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.item.dart';
@@ -8,15 +11,14 @@ class VehicleFeedScreen extends StatefulWidget {
 }
 
 class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
-  List<Map<String, String>> products = [
-    {"name": "Roupa"},
-  ];
+  List<Car> _cars = [];
+  CarsRepository _repository = CarsRepository();
 
-  void _openDetailScreen() {
+  void _openDetailScreen(int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => VehicleTabBarScreen(),
+        builder: (context) => VehicleTabBarScreen(_cars[index]),
       ),
     );
   }
@@ -33,12 +35,28 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return VehicleItem(
-            openDetailScreen: () => _openDetailScreen(),
-          );
+      body: FutureBuilder(
+        future: _repository.getAll(),
+        builder: (BuildContext context, AsyncSnapshot<List<Car>> snapshot) {
+          if (snapshot.hasError) {
+            return Container();
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loader();
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            _cars = snapshot.data ?? [];
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return VehicleItem(
+                  car: snapshot.data![index],
+                  openDetailScreen: () => _openDetailScreen(index),
+                );
+              },
+            );
+          } else {
+            return Container();
+          }
         },
       ),
     );

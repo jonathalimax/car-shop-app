@@ -1,22 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class GalleryItem {
+class Optional {
   final String id;
-  final String url;
   final String name;
 
-  GalleryItem({
+  Optional({
     required this.id,
-    required this.url,
     required this.name,
   });
 
-  factory GalleryItem.fromMap(
+  factory Optional.fromMap(
       QueryDocumentSnapshot<Map<String, dynamic>> snippet) {
     final data = snippet.data();
-    return GalleryItem(
+    return Optional(
       id: snippet.id,
-      url: data['url'],
       name: data['name'],
     );
   }

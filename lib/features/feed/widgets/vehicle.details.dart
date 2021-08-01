@@ -1,27 +1,20 @@
-import 'package:car_shop_app/features/feed/models/optionals.model.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.optionals.dart';
+import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/optionals.dart';
 import 'package:flutter/material.dart';
 
 class VehicleDetails extends StatefulWidget {
+  late final Car _car;
+
+  VehicleDetails(Car car) {
+    this._car = car;
+  }
+
   @override
   _VehicleDetailsState createState() => _VehicleDetailsState();
 }
 
 class _VehicleDetailsState extends State<VehicleDetails> {
-  List<OptionalsModel> optionals = [
-    OptionalsModel(id: 1, name: "Ar-condicionado", description: ""),
-    OptionalsModel(id: 1, name: "Direção elétrica", description: ""),
-    OptionalsModel(id: 1, name: "Alarme", description: ""),
-    OptionalsModel(id: 1, name: "Sensor de estacionamento", description: ""),
-    OptionalsModel(id: 1, name: "Controle de estabilidade", description: ""),
-    OptionalsModel(id: 1, name: "Rádio", description: ""),
-    OptionalsModel(id: 1, name: "Teto solar", description: ""),
-    OptionalsModel(id: 1, name: "Bancos de couro", description: ""),
-    OptionalsModel(id: 1, name: "Air bag", description: ""),
-    OptionalsModel(id: 1, name: "Travas elétricas", description: ""),
-    OptionalsModel(id: 1, name: "Vidros elétricos", description: ""),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,11 +23,15 @@ class _VehicleDetailsState extends State<VehicleDetails> {
           shrinkWrap: true,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 14, top: 14, right: 14),
+              padding: EdgeInsets.only(
+                left: 14,
+                top: 14,
+                right: 14,
+              ),
               child: Row(
                 children: [
                   Text(
-                    'Marca',
+                    widget._car.brand,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 18,
@@ -43,7 +40,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                   ),
                   SizedBox(width: 5),
                   Text(
-                    'Modelo',
+                    widget._car.model,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 18,
@@ -52,7 +49,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                   ),
                   Spacer(),
                   Text(
-                    'R\$100.000,00',
+                    'R\$ ${widget._car.value}',
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 18,
@@ -82,7 +79,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                         ),
                         SizedBox(width: 5),
                         Text(
-                          'Branco',
+                          widget._car.color,
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           style: TextStyle(
@@ -109,7 +106,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                         ),
                         SizedBox(width: 5),
                         Text(
-                          '2012/2013',
+                          widget._car.year,
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           style: TextStyle(
@@ -136,7 +133,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                         ),
                         SizedBox(width: 5),
                         Text(
-                          '105.000 km',
+                          '${widget._car.odometer} km',
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           style: TextStyle(
@@ -153,7 +150,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
             Container(
               padding: EdgeInsets.only(left: 14, top: 8, right: 14),
               child: Text(
-                'Título completo do anúncio gerado auto',
+                widget._car.description,
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 16,
@@ -162,7 +159,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
               ),
             ),
             Divider(height: 40),
-            VehicleOptionals(optionals: optionals),
+            VehicleOptionals(widget._car.optionals ?? []),
           ],
         ),
       ),
