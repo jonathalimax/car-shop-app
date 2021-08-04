@@ -6,7 +6,7 @@ class StoreScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Meu Perfil',
+          'Loja',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,

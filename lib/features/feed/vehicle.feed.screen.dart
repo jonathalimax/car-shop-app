@@ -10,7 +10,8 @@ class VehicleFeedScreen extends StatefulWidget {
   _VehicleFeedScreenState createState() => _VehicleFeedScreenState();
 }
 
-class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
+class _VehicleFeedScreenState extends State<VehicleFeedScreen>
+    with AutomaticKeepAliveClientMixin {
   List<Car> _cars = [];
   CarsRepository _repository = CarsRepository();
 
@@ -18,7 +19,7 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => VehicleTabBarScreen(_cars[index]),
+        builder: (context) => VehicleTabBarScreen(car: _cars[index]),
       ),
     );
   }
@@ -61,4 +62,7 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

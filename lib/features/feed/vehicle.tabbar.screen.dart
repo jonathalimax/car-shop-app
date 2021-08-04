@@ -4,11 +4,9 @@ import 'package:car_shop_app/models/car.dart';
 import 'package:flutter/material.dart';
 
 class VehicleTabBarScreen extends StatelessWidget {
-  late Car _car;
+  final Car car;
 
-  VehicleTabBarScreen(Car car) {
-    this._car = car;
-  }
+  VehicleTabBarScreen({required this.car});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,7 @@ class VehicleTabBarScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              VehicleDetails(_car),
+              VehicleDetails(car),
               VehicleStore(),
             ],
           ),
