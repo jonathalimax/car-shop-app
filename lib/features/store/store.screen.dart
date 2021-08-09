@@ -8,8 +8,8 @@ class StoreScreen extends StatelessWidget {
         title: Text(
           'Loja',
           style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:car_shop_app/features/feed/widgets/vehicle.optionals.dart';
 import 'package:car_shop_app/models/car.dart';
-import 'package:car_shop_app/models/optionals.dart';
 import 'package:flutter/material.dart';
 
 class VehicleDetails extends StatefulWidget {

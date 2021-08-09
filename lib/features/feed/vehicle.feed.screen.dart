@@ -26,13 +26,14 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Veículos disponíveis',
           style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

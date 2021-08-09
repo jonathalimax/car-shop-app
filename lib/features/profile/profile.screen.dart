@@ -1,14 +1,38 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_shop_app/components/loader/loader.dart';
+import 'package:car_shop_app/features/login/login.screen.dart';
+import 'package:car_shop_app/services/authentication.service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: context.read<AuthenticationService>().authStateChanges,
+      builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting)
+          return Loader();
+
+        if (snapshot.hasData) {
+          return profileScreen(context, snapshot.data!);
+        } else {
+          return LoginScreen();
+        }
+      },
+    );
+  }
+
+  Scaffold profileScreen(BuildContext context, User loggedUser) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.read<AuthenticationService>().signOut();
+            },
             icon: Icon(Icons.logout),
           ),
         ],
@@ -16,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            header(context),
+            header(context, loggedUser),
             profileItems(),
           ],
         ),
@@ -41,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           ListTile(
             title: Text(
-              'Lista de desejo',
+              'Lista de desejos',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w400,
@@ -54,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Stack header(BuildContext context) {
+  Stack header(BuildContext context, User user) {
     return Stack(
       children: <Widget>[
         Container(
@@ -70,18 +94,27 @@ class ProfileScreen extends StatelessWidget {
           ),
           child: Row(
             children: <Widget>[
-              ClipOval(
-                child: Image.network(
-                  'http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Profile-Picture-4.jpg',
-                  width: 56,
-                  height: 56,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              user.photoURL == null
+                  ? ClipOval(
+                      child: Container(
+                        color: Colors.blueGrey,
+                      ),
+                    )
+                  : ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: user.photoURL!,
+                        width: 56,
+                        height: 56,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Center(
+                          child: Loader(),
+                        ),
+                      ),
+                    ),
               SizedBox(width: 14),
               Flexible(
                 child: Text(
-                  'Jonatha Lima',
+                  user.displayName ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

@@ -2,7 +2,8 @@ import 'package:car_shop_app/features/profile/profile.screen.dart';
 import 'package:car_shop_app/features/store/store.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:car_shop_app/features/feed/vehicle.feed.screen.dart';
-import 'package:car_shop_app/classes/custom.colors.dart';
+import 'package:car_shop_app/wrappers/custom.colors.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 enum _SelectedTab { products, sales, store }
@@ -53,20 +54,29 @@ class _HomeScreen extends State<HomeScreen> {
       items: [
         /// Home
         SalomonBottomBarItem(
-          icon: Icon(Icons.directions_car_outlined),
+          icon: FaIcon(
+            FontAwesomeIcons.carAlt,
+            size: 22,
+          ),
           title: Text("Veículos"),
           selectedColor: CustomColors.blue,
         ),
 
         SalomonBottomBarItem(
-          icon: Icon(Icons.storefront_outlined),
+          icon: FaIcon(
+            FontAwesomeIcons.storeAlt,
+            size: 18,
+          ),
           title: Text("Loja"),
           selectedColor: CustomColors.blue,
         ),
 
         /// Profile
         SalomonBottomBarItem(
-          icon: Icon(Icons.account_circle_outlined),
+          icon: FaIcon(
+            FontAwesomeIcons.solidUserCircle,
+            size: 24,
+          ),
           title: Text("Meu Perfil"),
           selectedColor: CustomColors.blue,
         ),

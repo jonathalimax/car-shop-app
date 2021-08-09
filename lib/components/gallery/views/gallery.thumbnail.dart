@@ -1,5 +1,6 @@
 import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:car_shop_app/components/loader/loader.dart';
 import 'package:flutter/material.dart';
 
 class GalleryThumbnail extends StatelessWidget {
@@ -25,7 +26,7 @@ class GalleryThumbnail extends StatelessWidget {
             cacheKey: model.id.toString(),
             filterQuality: FilterQuality.high,
             placeholder: (context, url) => Center(
-              child: RefreshProgressIndicator(),
+              child: Loader(),
             ),
           ),
         ),

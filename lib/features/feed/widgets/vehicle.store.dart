@@ -1,5 +1,5 @@
-import 'package:car_shop_app/classes/custom.colors.dart';
-import 'package:car_shop_app/classes/whatsapp.message.dart';
+import 'package:car_shop_app/wrappers/custom.colors.dart';
+import 'package:car_shop_app/wrappers/whatsapp.message.dart';
 import 'package:car_shop_app/components/custom/custom.button.dart';
 import 'package:car_shop_app/components/maps/maps.sheet.dart';
 import 'package:flutter/material.dart';

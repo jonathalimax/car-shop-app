@@ -32,6 +32,14 @@ class VehicleTabBarScreen extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.favorite,
+                ),
+              ),
+            ],
           ),
           body: TabBarView(
             children: [

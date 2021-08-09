@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MapsSheet {
   static show({
@@ -9,14 +10,15 @@ class MapsSheet {
   }) async {
     final availableMaps = await MapLauncher.installedMaps;
 
-    showModalBottomSheet(
+    showBarModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return SafeArea(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: SingleChildScrollView(
+          child: Container(
+            height: (30.0 * availableMaps.length) + 70,
+            child: Column(
+              children: <Widget>[
+                Expanded(
                   child: Container(
                     child: Wrap(
                       children: <Widget>[
@@ -43,8 +45,8 @@ class MapsSheet {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
