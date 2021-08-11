@@ -1,3 +1,4 @@
+import 'package:car_shop_app/repositories/favorities.repository.dart';
 import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:car_shop_app/wrappers/custom.colors.dart';
 import 'package:car_shop_app/features/home/home.screen.dart';
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        Provider<FavoritiesRepository>(
+          create: (_) => FavoritiesRepository(),
         ),
       ],
       child: MaterialApp(

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_shop_app/components/loader/loader.dart';
+import 'package:car_shop_app/features/favorites/favorites.screen.dart';
 import 'package:car_shop_app/features/login/login.screen.dart';
 import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +25,15 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  void _pushFavorites(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FavoritesScreen(),
+      ),
+    );
+  }
+
   Scaffold profileScreen(BuildContext context, User loggedUser) {
     return Scaffold(
       appBar: AppBar(
@@ -41,14 +51,14 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             header(context, loggedUser),
-            profileItems(),
+            profileItems(context),
           ],
         ),
       ),
     );
   }
 
-  Expanded profileItems() {
+  Expanded profileItems(BuildContext context) {
     return Expanded(
       child: ListView(
         physics: NeverScrollableScrollPhysics(),
@@ -61,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            onTap: () {},
+            onTap: () => _pushFavorites(context),
           ),
           ListTile(
             title: Text(

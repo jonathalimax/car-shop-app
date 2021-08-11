@@ -1,6 +1,6 @@
 import 'package:car_shop_app/database/database.dart';
-import 'package:car_shop_app/models/car.dart';
 import 'package:car_shop_app/models/favorite.model.dart';
+import 'package:car_shop_app/repositories/cars.repository.dart';
 import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,11 +8,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FavoritiesRepository {
   late FirebaseFirestore database;
   late AuthenticationService _authenticationService;
+  late CarsRepository _carsRepository;
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   FavoritiesRepository() {
     database = Database.get();
     _authenticationService = AuthenticationService(FirebaseAuth.instance);
+    _carsRepository = CarsRepository();
+  }
+
+  Future<bool> isFavorite(String carId) async {
+    final currentUser = _authenticationService.currentUser;
+
+    if (currentUser == null) return false;
+
+    final favorites = await database
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('favorites')
+        .where('carId', isEqualTo: carId)
+        .get();
+
+    return favorites.docs.first.exists;
   }
 
   Future<List<FavoriteModel>> getAll() async {
@@ -30,8 +47,8 @@ class FavoritiesRepository {
     await Future.forEach(favorites.docs, (favorite) async {
       final document = favorite as QueryDocumentSnapshot<Map<String, dynamic>>;
       final carId = document.data()['carId'];
-      final car = await database.collection('cars').doc(carId).get();
-      favoriteList.add(FavoriteModel(id: favorite.id, car: Car.fromMap(car)));
+      final car = await _carsRepository.getById(carId);
+      favoriteList.add(FavoriteModel(id: favorite.id, car: car));
     });
 
     return favoriteList;

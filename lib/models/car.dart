@@ -19,6 +19,8 @@ class Car {
   List<OptionalModel>? optionals;
   List<GalleryItem>? images;
 
+  bool isFavorite = false;
+
   String get year {
     return '$manufactureDate/$modelDate';
   }

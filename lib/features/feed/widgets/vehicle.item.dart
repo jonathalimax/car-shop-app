@@ -1,16 +1,20 @@
 import 'package:car_shop_app/components/gallery/views/gallery.photo.dart';
 import 'package:car_shop_app/components/gallery/views/gallery.thumbnail.dart';
 import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/repositories/favorities.repository.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VehicleItem extends StatefulWidget {
   final Car car;
   final VoidCallback openDetailScreen;
+  VoidCallback? shouldReloadScreen;
 
   VehicleItem({
     required this.car,
     required this.openDetailScreen,
+    this.shouldReloadScreen,
   });
 
   @override
@@ -48,11 +52,16 @@ class _VehicleItemState extends State<VehicleItem> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.only(left: 14, top: 14, right: 14),
+        padding: const EdgeInsets.only(
+          left: 14,
+          top: 12,
+          right: 14,
+          bottom: 10,
+        ),
         child: GestureDetector(
           onTap: widget.openDetailScreen,
           child: Container(
-            height: 400,
+            height: 404,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: Colors.white,
@@ -97,7 +106,7 @@ class _VehicleItemState extends State<VehicleItem> {
       child: Text(
         widget.car.description,
         textAlign: TextAlign.left,
-        maxLines: 2,
+        maxLines: 3,
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
@@ -155,44 +164,79 @@ class _VehicleItemState extends State<VehicleItem> {
     return Column(
       children: [
         Container(
-          child: Stack(
-            children: <Widget>[
-              CarouselSlider(
-                carouselController: _carouselController,
-                items: widget.car.images!
-                    .map(
-                      (item) => Container(
-                        height: 250,
-                        child: GalleryThumbnail(
-                          model: item,
-                          onTap: () => _openGallery(context, _currentImage),
+          child: widget.car.images == null
+              ? Container()
+              : Stack(
+                  children: <Widget>[
+                    CarouselSlider(
+                      carouselController: _carouselController,
+                      items: widget.car.images!
+                          .map(
+                            (item) => Container(
+                              height: 250,
+                              child: GalleryThumbnail(
+                                model: item,
+                                onTap: () =>
+                                    _openGallery(context, _currentImage),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      options: CarouselOptions(
+                        viewportFraction: 1.0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentImage = index;
+                          });
+                        },
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        child: IconButton(
+                          icon: Icon(
+                            widget.car.isFavorite
+                                ? Icons.favorite_rounded
+                                : Icons.favorite_outline_rounded,
+                          ),
+                          color: Colors.white,
+                          iconSize: 30,
+                          onPressed: () {
+                            if (widget.car.isFavorite) {
+                              context
+                                  .read<FavoritiesRepository>()
+                                  .remove(widget.car.id)
+                                  .then((value) => {
+                                        setState(() {
+                                          if (widget.shouldReloadScreen !=
+                                              null) {
+                                            widget.shouldReloadScreen!();
+                                          }
+                                          widget.car.isFavorite = false;
+                                        })
+                                      });
+                            } else {
+                              context
+                                  .read<FavoritiesRepository>()
+                                  .save(widget.car.id)
+                                  .then((value) => {
+                                        setState(() {
+                                          if (widget.shouldReloadScreen !=
+                                              null) {
+                                            widget.shouldReloadScreen!();
+                                          }
+                                          widget.car.isFavorite = true;
+                                        })
+                                      });
+                            }
+                          },
                         ),
                       ),
-                    )
-                    .toList(),
-                options: CarouselOptions(
-                  viewportFraction: 1.0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _currentImage = index;
-                    });
-                  },
+                    ),
+                  ],
                 ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  padding: EdgeInsets.all(4),
-                  child: IconButton(
-                    icon: Icon(Icons.favorite),
-                    color: Colors.white,
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
