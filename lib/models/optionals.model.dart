@@ -1,20 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Optional {
+class OptionalModel {
   final String id;
   final String name;
 
-  Optional({
+  OptionalModel({
     required this.id,
     required this.name,
   });
 
-  factory Optional.fromMap(
+  factory OptionalModel.fromMap(
       QueryDocumentSnapshot<Map<String, dynamic>> snippet) {
     final data = snippet.data();
-    return Optional(
+    return OptionalModel(
       id: snippet.id,
       name: data['name'],
     );
+  }
+
+  Map<String, Object?> toJson() {
+    return {
+      'name': name,
+    };
   }
 }

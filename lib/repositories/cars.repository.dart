@@ -1,7 +1,7 @@
 import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
 import 'package:car_shop_app/database/database.dart';
 import 'package:car_shop_app/models/car.dart';
-import 'package:car_shop_app/models/optionals.dart';
+import 'package:car_shop_app/models/optionals.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CarsRepository {
@@ -25,8 +25,9 @@ class CarsRepository {
           .collection('optionals')
           .get();
 
-      car.optionals =
-          optionals.docs.map((optional) => Optional.fromMap(optional)).toList();
+      car.optionals = optionals.docs
+          .map((optional) => OptionalModel.fromMap(optional))
+          .toList();
 
       final images = await database
           .collection('cars')

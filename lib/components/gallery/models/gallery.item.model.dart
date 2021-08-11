@@ -16,7 +16,7 @@ class GalleryItem {
     final data = snippet.data();
     return GalleryItem(
       id: snippet.id,
-      url: data['url'],
+      url: data['path'],
       name: data['name'],
     );
   }

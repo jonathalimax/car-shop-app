@@ -5,7 +5,7 @@ class UserModel {
   final String id;
   final String name;
   final String email;
-  final List<Car>? favorites;
+  final List<String>? favorites;
   final List<Car>? wishlist;
 
   UserModel({

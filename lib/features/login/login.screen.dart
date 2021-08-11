@@ -44,7 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
     await context.read<AuthenticationService>().signInWithGoogle();
   }
 
-  _appleSign() {}
+  _appleSign(BuildContext context) async {
+    await context.read<AuthenticationService>().signInWithApple();
+  }
 
   Container logoImage() {
     return Container(
@@ -97,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
           minimumSize: Size(double.infinity, 50),
           elevation: 0,
         ),
-        onPressed: () {},
+        onPressed: () => _appleSign(context),
         icon: FaIcon(
           FontAwesomeIcons.apple,
           color: Colors.black,

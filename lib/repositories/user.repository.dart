@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepository {
   late FirebaseFirestore database;
+  CollectionReference _users = FirebaseFirestore.instance.collection('users');
 
   UserRepository() {
     database = Database.get();
@@ -16,7 +17,6 @@ class UserRepository {
   }
 
   Future save(UserModel user) async {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    return await users.doc(user.id).set(user.toJson());
+    return await _users.doc(user.id).set(user.toJson());
   }
 }

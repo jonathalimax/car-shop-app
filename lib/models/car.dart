@@ -1,5 +1,5 @@
 import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
-import 'package:car_shop_app/models/optionals.dart';
+import 'package:car_shop_app/models/optionals.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Car {
@@ -7,8 +7,8 @@ class Car {
   final String brand;
   final String model;
   final String color;
-  final String modelDate;
   final String manufactureDate;
+  final String modelDate;
   final String odometer;
   final int value;
   final String description;
@@ -16,7 +16,7 @@ class Car {
   final String endPlate;
   final String gearbox;
   final String bodywork;
-  List<Optional>? optionals;
+  List<OptionalModel>? optionals;
   List<GalleryItem>? images;
 
   String get year {
@@ -41,8 +41,24 @@ class Car {
     this.optionals,
   });
 
-  factory Car.fromMap(QueryDocumentSnapshot<Map<String, dynamic>> snippet) {
+  factory Car.fromMap(DocumentSnapshot<Map<String, dynamic>> snippet) {
     final data = snippet.data();
+    if (data == null)
+      return Car(
+        id: '',
+        brand: '',
+        model: '',
+        color: '',
+        modelDate: '',
+        manufactureDate: '',
+        odometer: '',
+        value: 0,
+        description: '',
+        fuel: '',
+        endPlate: '',
+        gearbox: '',
+        bodywork: '',
+      );
     return Car(
       id: snippet.id,
       brand: data['brand'],
@@ -58,5 +74,22 @@ class Car {
       gearbox: data['gearbox'],
       bodywork: data['bodywork'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'brand': brand,
+      'model': model,
+      'color': color,
+      'modelDate': modelDate,
+      'manufactureDate': manufactureDate,
+      'odometer': odometer,
+      'value': value,
+      'description': description,
+      'fuel': fuel,
+      'endPlate': endPlate,
+      'gearbox': gearbox,
+      'bodywork': bodywork
+    };
   }
 }

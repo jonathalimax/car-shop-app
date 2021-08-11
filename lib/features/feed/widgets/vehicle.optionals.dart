@@ -1,10 +1,10 @@
-import 'package:car_shop_app/models/optionals.dart';
+import 'package:car_shop_app/models/optionals.model.dart';
 import 'package:flutter/material.dart';
 
 class VehicleOptionals extends StatelessWidget {
-  late final List<Optional> _optionals;
+  late final List<OptionalModel> _optionals;
 
-  VehicleOptionals(List<Optional> optionals) {
+  VehicleOptionals(List<OptionalModel> optionals) {
     this._optionals = optionals;
   }
 
