@@ -1,15 +1,16 @@
 import 'package:car_shop_app/components/gallery/views/gallery.photo.dart';
 import 'package:car_shop_app/components/gallery/views/gallery.thumbnail.dart';
-import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/vehicle.dart';
+import 'package:car_shop_app/models/vehicles.model.dart';
 import 'package:car_shop_app/repositories/favorities.repository.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class VehicleItem extends StatefulWidget {
-  final Car car;
+  final Vehicle car;
   final VoidCallback openDetailScreen;
-  VoidCallback? shouldReloadScreen;
+  final VoidCallback? shouldReloadScreen;
 
   VehicleItem({
     required this.car,
@@ -205,31 +206,9 @@ class _VehicleItemState extends State<VehicleItem> {
                           iconSize: 30,
                           onPressed: () {
                             if (widget.car.isFavorite) {
-                              context
-                                  .read<FavoritiesRepository>()
-                                  .remove(widget.car.id)
-                                  .then((value) => {
-                                        setState(() {
-                                          if (widget.shouldReloadScreen !=
-                                              null) {
-                                            widget.shouldReloadScreen!();
-                                          }
-                                          widget.car.isFavorite = false;
-                                        })
-                                      });
+                              _removeFavorite(context);
                             } else {
-                              context
-                                  .read<FavoritiesRepository>()
-                                  .save(widget.car.id)
-                                  .then((value) => {
-                                        setState(() {
-                                          if (widget.shouldReloadScreen !=
-                                              null) {
-                                            widget.shouldReloadScreen!();
-                                          }
-                                          widget.car.isFavorite = true;
-                                        })
-                                      });
+                              _favoriteCar(context);
                             }
                           },
                         ),
@@ -316,5 +295,25 @@ class _VehicleItemState extends State<VehicleItem> {
         ],
       ),
     );
+  }
+
+  _favoriteCar(BuildContext context) {
+    final vehiclesModel = Provider.of<VehiclesModel>(context, listen: false);
+    context.read<FavoritiesRepository>().save(widget.car.id).then((value) {
+      if (widget.shouldReloadScreen != null) {
+        widget.shouldReloadScreen!();
+      }
+      vehiclesModel.setFavorite(widget.car);
+    });
+  }
+
+  _removeFavorite(BuildContext context) {
+    final vehiclesModel = Provider.of<VehiclesModel>(context, listen: false);
+    context.read<FavoritiesRepository>().remove(widget.car.id).then((value) {
+      if (widget.shouldReloadScreen != null) {
+        widget.shouldReloadScreen!();
+      }
+      vehiclesModel.removeFavorite(widget.car);
+    });
   }
 }

@@ -2,7 +2,7 @@ import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
 import 'package:car_shop_app/models/optionals.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Car {
+class Vehicle {
   final String id;
   final String brand;
   final String model;
@@ -25,7 +25,7 @@ class Car {
     return '$manufactureDate/$modelDate';
   }
 
-  Car({
+  Vehicle({
     required this.id,
     required this.brand,
     required this.model,
@@ -43,10 +43,10 @@ class Car {
     this.optionals,
   });
 
-  factory Car.fromMap(DocumentSnapshot<Map<String, dynamic>> snippet) {
+  factory Vehicle.fromMap(DocumentSnapshot<Map<String, dynamic>> snippet) {
     final data = snippet.data();
     if (data == null)
-      return Car(
+      return Vehicle(
         id: '',
         brand: '',
         model: '',
@@ -61,7 +61,7 @@ class Car {
         gearbox: '',
         bodywork: '',
       );
-    return Car(
+    return Vehicle(
       id: snippet.id,
       brand: data['brand'],
       model: data['model'],

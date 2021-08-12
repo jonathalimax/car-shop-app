@@ -1,7 +1,7 @@
 import 'package:car_shop_app/components/loader/loader.dart';
 import 'package:car_shop_app/features/feed/vehicle.tabbar.screen.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.item.dart';
-import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/vehicle.dart';
 import 'package:car_shop_app/models/favorite.model.dart';
 import 'package:car_shop_app/repositories/favorities.repository.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  void _openDetailScreen(Car car) {
+  void _openDetailScreen(Vehicle car) {
     Navigator.push(
       context,
       MaterialPageRoute(

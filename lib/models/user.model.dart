@@ -1,4 +1,4 @@
-import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/vehicle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
@@ -6,7 +6,7 @@ class UserModel {
   final String name;
   final String email;
   final List<String>? favorites;
-  final List<Car>? wishlist;
+  final List<Vehicle>? wishlist;
 
   UserModel({
     this.id = '',

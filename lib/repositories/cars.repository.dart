@@ -1,6 +1,6 @@
 import 'package:car_shop_app/components/gallery/models/gallery.item.model.dart';
 import 'package:car_shop_app/database/database.dart';
-import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/vehicle.dart';
 import 'package:car_shop_app/models/optionals.model.dart';
 import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,13 +15,13 @@ class CarsRepository {
     _authenticationService = AuthenticationService(FirebaseAuth.instance);
   }
 
-  Future<List<Car>> getAll() async {
-    List<Car> cars = [];
+  Future<List<Vehicle>> getAll() async {
+    List<Vehicle> cars = [];
     final snapshot = await database.collection('cars').get();
 
     await Future.forEach(snapshot.docs, (doc) async {
       final document = doc as QueryDocumentSnapshot<Map<String, dynamic>>;
-      final car = Car.fromMap(document);
+      final car = Vehicle.fromMap(document);
       car.optionals = await _getOptionalsByCar(document.id);
       car.images = await _getImagesByCar(document.id);
       car.isFavorite = await _isFavorite(document.id);
@@ -31,9 +31,9 @@ class CarsRepository {
     return cars;
   }
 
-  Future<Car> getById(String id) async {
+  Future<Vehicle> getById(String id) async {
     final snapshot = await database.collection('cars').doc(id).get();
-    Car car = Car.fromMap(snapshot);
+    Vehicle car = Vehicle.fromMap(snapshot);
     car.optionals = await _getOptionalsByCar(snapshot.id);
     car.images = await _getImagesByCar(snapshot.id);
     car.isFavorite = await _isFavorite(id);

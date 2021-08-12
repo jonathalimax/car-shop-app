@@ -1,3 +1,4 @@
+import 'package:car_shop_app/models/vehicles.model.dart';
 import 'package:car_shop_app/repositories/favorities.repository.dart';
 import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:car_shop_app/wrappers/custom.colors.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<FavoritiesRepository>(
           create: (_) => FavoritiesRepository(),
+        ),
+        ChangeNotifierProvider<VehiclesModel>(
+          create: (_) => VehiclesModel(),
         ),
       ],
       child: MaterialApp(

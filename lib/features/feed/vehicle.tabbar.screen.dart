@@ -1,10 +1,10 @@
 import 'package:car_shop_app/features/feed/widgets/vehicle.details.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.store.dart';
-import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/vehicle.dart';
 import 'package:flutter/material.dart';
 
 class VehicleTabBarScreen extends StatelessWidget {
-  final Car car;
+  final Vehicle car;
 
   VehicleTabBarScreen({required this.car});
 

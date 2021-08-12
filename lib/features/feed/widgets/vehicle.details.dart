@@ -1,11 +1,11 @@
 import 'package:car_shop_app/features/feed/widgets/vehicle.optionals.dart';
-import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/vehicle.dart';
 import 'package:flutter/material.dart';
 
 class VehicleDetails extends StatefulWidget {
-  late final Car _car;
+  late final Vehicle _car;
 
-  VehicleDetails(Car car) {
+  VehicleDetails(Vehicle car) {
     this._car = car;
   }
 

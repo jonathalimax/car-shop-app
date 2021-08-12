@@ -1,8 +1,8 @@
-import 'package:car_shop_app/models/car.dart';
+import 'package:car_shop_app/models/vehicle.dart';
 
 class FavoriteModel {
   final String id;
-  final Car car;
+  final Vehicle car;
 
   FavoriteModel({required this.id, required this.car});
 
