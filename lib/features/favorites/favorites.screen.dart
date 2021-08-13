@@ -1,3 +1,4 @@
+import 'package:car_shop_app/components/states/empty.state.widget.dart';
 import 'package:car_shop_app/components/loader/loader.dart';
 import 'package:car_shop_app/features/feed/vehicle.tabbar.screen.dart';
 import 'package:car_shop_app/features/feed/widgets/vehicle.item.dart';
@@ -28,6 +29,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.redAccent,
         title: Text(
           'Meus Favoritos',
           style: TextStyle(
@@ -47,6 +49,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             case ConnectionState.waiting:
               return Loader();
             case ConnectionState.done:
+              if (!snapshot.hasData || snapshot.data!.isEmpty)
+                return EmptyStateWidget(
+                  message: 'Você não possui favoritos no momento!',
+                );
+
               return buildFavorites(snapshot.data ?? []);
             default:
               return Container();
@@ -64,6 +71,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           car: favorites[index].car,
           openDetailScreen: () => _openDetailScreen(favorites[index].car),
           shouldReloadScreen: () => setState(() {}),
+          origin: 'favorites',
         );
       },
     );

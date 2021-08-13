@@ -1,8 +1,10 @@
 import 'package:car_shop_app/components/gallery/views/gallery.photo.dart';
 import 'package:car_shop_app/components/gallery/views/gallery.thumbnail.dart';
+import 'package:car_shop_app/features/login/login.screen.dart';
 import 'package:car_shop_app/models/vehicle.dart';
 import 'package:car_shop_app/models/vehicles.model.dart';
 import 'package:car_shop_app/repositories/favorities.repository.dart';
+import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +13,13 @@ class VehicleItem extends StatefulWidget {
   final Vehicle car;
   final VoidCallback openDetailScreen;
   final VoidCallback? shouldReloadScreen;
+  final String? origin;
 
   VehicleItem({
     required this.car,
     required this.openDetailScreen,
     this.shouldReloadScreen,
+    this.origin,
   });
 
   @override
@@ -39,6 +43,7 @@ class _VehicleItemState extends State<VehicleItem> {
           ),
           startIndex: index,
           scrollDirection: Axis.horizontal,
+          tagComplement: widget.origin,
         ),
       ),
     );
@@ -179,6 +184,7 @@ class _VehicleItemState extends State<VehicleItem> {
                                 model: item,
                                 onTap: () =>
                                     _openGallery(context, _currentImage),
+                                origin: widget.origin,
                               ),
                             ),
                           )
@@ -298,8 +304,29 @@ class _VehicleItemState extends State<VehicleItem> {
   }
 
   _favoriteCar(BuildContext context) {
+    final loggedUser = context.read<AuthenticationService>().currentUser;
     final vehiclesModel = Provider.of<VehiclesModel>(context, listen: false);
-    context.read<FavoritiesRepository>().save(widget.car.id).then((value) {
+
+    if (loggedUser == null)
+      return _openLoginScreen(
+        context,
+        () async {
+          final isFavorite = await context
+              .read<FavoritiesRepository>()
+              .isFavorite(widget.car.id);
+
+          if (isFavorite) {
+            vehiclesModel.setFavorite(widget.car);
+          } else {
+            _favoriteCar(context);
+          }
+        },
+      );
+
+    context
+        .read<FavoritiesRepository>()
+        .save(widget.car.id, loggedUser.uid)
+        .then((value) {
       if (widget.shouldReloadScreen != null) {
         widget.shouldReloadScreen!();
       }
@@ -308,12 +335,59 @@ class _VehicleItemState extends State<VehicleItem> {
   }
 
   _removeFavorite(BuildContext context) {
+    final loggedUser = context.read<AuthenticationService>().currentUser;
     final vehiclesModel = Provider.of<VehiclesModel>(context, listen: false);
-    context.read<FavoritiesRepository>().remove(widget.car.id).then((value) {
-      if (widget.shouldReloadScreen != null) {
-        widget.shouldReloadScreen!();
-      }
-      vehiclesModel.removeFavorite(widget.car);
-    });
+
+    if (loggedUser == null)
+      return _openLoginScreen(
+        context,
+        () async {
+          final isFavorite = await context
+              .read<FavoritiesRepository>()
+              .isFavorite(widget.car.id);
+
+          if (isFavorite) {
+            _removeFavorite(context);
+          } else {
+            vehiclesModel.removeFavorite(widget.car);
+          }
+        },
+      );
+
+    context
+        .read<FavoritiesRepository>()
+        .remove(widget.car.id, loggedUser.uid)
+        .then(
+      (value) {
+        if (widget.shouldReloadScreen != null) {
+          widget.shouldReloadScreen!();
+        }
+        vehiclesModel.removeFavorite(widget.car);
+      },
+    );
+  }
+
+  _openLoginScreen(BuildContext context, Future Function() onSuccess) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        content: Text(
+          'Faça seu login para salvar esse veículo!',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginScreen(
+          onSuccessCallback: onSuccess,
+        ),
+      ),
+    );
   }
 }

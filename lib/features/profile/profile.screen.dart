@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:car_shop_app/components/loader/loader.dart';
 import 'package:car_shop_app/features/favorites/favorites.screen.dart';
 import 'package:car_shop_app/features/login/login.screen.dart';
+import 'package:car_shop_app/models/vehicle.dart';
+import 'package:car_shop_app/models/vehicles.model.dart';
 import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +27,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  void _pushFavorites(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FavoritesScreen(),
-      ),
-    );
-  }
-
   Scaffold profileScreen(BuildContext context, User loggedUser) {
     return Scaffold(
       appBar: AppBar(
@@ -42,6 +35,8 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               context.read<AuthenticationService>().signOut();
+              Provider.of<VehiclesModel>(context, listen: false)
+                  .removeFavorites();
             },
             icon: Icon(Icons.logout),
           ),
@@ -63,16 +58,6 @@ class ProfileScreen extends StatelessWidget {
       child: ListView(
         physics: NeverScrollableScrollPhysics(),
         children: [
-          ListTile(
-            title: Text(
-              'Meus favoritos',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            onTap: () => _pushFavorites(context),
-          ),
           ListTile(
             title: Text(
               'Lista de desejos',

@@ -15,9 +15,19 @@ class VehicleFeedScreen extends StatefulWidget {
 class _VehicleFeedScreenState extends State<VehicleFeedScreen>
     with AutomaticKeepAliveClientMixin {
   CarsRepository _repository = CarsRepository();
+  late Future<List<Vehicle>> _vehicles;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    _vehicles = _getVehicles();
+    super.initState();
+  }
 
   void _openDetailScreen(int index) {
-    final model = Provider.of<VehiclesModel>(context);
+    final model = Provider.of<VehiclesModel>(context, listen: false);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -41,7 +51,7 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen>
         ),
       ),
       body: FutureBuilder(
-        future: _repository.getAll(),
+        future: _vehicles,
         builder: (BuildContext context, AsyncSnapshot<List<Vehicle>> snapshot) {
           if (snapshot.hasError) {
             return Container();
@@ -59,22 +69,29 @@ class _VehicleFeedScreenState extends State<VehicleFeedScreen>
     );
   }
 
-  ListView buildVehiclesList(BuildContext context, VehiclesModel model) {
-    return ListView.builder(
-      itemCount: model.vehicles.length,
-      itemBuilder: (context, index) {
-        return Consumer<VehiclesModel>(
-          builder: (context, model, _) {
-            return VehicleItem(
-              car: model.vehicles[index],
-              openDetailScreen: () => _openDetailScreen(index),
-            );
-          },
-        );
-      },
+  RefreshIndicator buildVehiclesList(
+      BuildContext context, VehiclesModel model) {
+    return RefreshIndicator(
+      onRefresh: _getVehicles,
+      child: ListView.builder(
+        itemCount: model.vehicles.length,
+        itemBuilder: (context, index) {
+          return Consumer<VehiclesModel>(
+            builder: (context, model, _) {
+              return VehicleItem(
+                car: model.vehicles[index],
+                openDetailScreen: () => _openDetailScreen(index),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  Future<List<Vehicle>> _getVehicles() async {
+    final vehicles = await _repository.getAll();
+    setState(() {});
+    return vehicles;
+  }
 }

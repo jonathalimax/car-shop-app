@@ -29,7 +29,7 @@ class FavoritiesRepository {
         .where('carId', isEqualTo: carId)
         .get();
 
-    return favorites.docs.first.exists;
+    return favorites.docs.isNotEmpty;
   }
 
   Future<List<FavoriteModel>> getAll() async {
@@ -54,13 +54,10 @@ class FavoritiesRepository {
     return favoriteList;
   }
 
-  Future save(String carId) async {
-    final currentUser = _authenticationService.currentUser;
-    if (currentUser == null) return;
-
+  Future save(String carId, String userId) async {
     CollectionReference _favorites = _firebaseFirestore
         .collection('users')
-        .doc(currentUser.uid)
+        .doc(userId)
         .collection('favorites');
 
     await _favorites.doc().set({
@@ -68,13 +65,10 @@ class FavoritiesRepository {
     });
   }
 
-  Future remove(String carId) async {
-    final currentUser = _authenticationService.currentUser;
-    if (currentUser == null) return;
-
+  Future remove(String carId, String userId) async {
     final favorites = await _firebaseFirestore
         .collection('users')
-        .doc(currentUser.uid)
+        .doc(userId)
         .collection('favorites')
         .where('carId', isEqualTo: carId)
         .get();

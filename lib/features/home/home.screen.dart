@@ -1,5 +1,5 @@
+import 'package:car_shop_app/features/favorites/favorites.screen.dart';
 import 'package:car_shop_app/features/profile/profile.screen.dart';
-import 'package:car_shop_app/features/store/store.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:car_shop_app/features/feed/vehicle.feed.screen.dart';
 import 'package:car_shop_app/wrappers/custom.colors.dart';
@@ -17,7 +17,7 @@ class _HomeScreen extends State<HomeScreen> {
   PageController _pageController = PageController();
   List<Widget> _screens = [
     VehicleFeedScreen(),
-    StoreScreen(),
+    FavoritesScreen(),
     ProfileScreen(),
   ];
 
@@ -64,20 +64,20 @@ class _HomeScreen extends State<HomeScreen> {
 
         SalomonBottomBarItem(
           icon: FaIcon(
-            FontAwesomeIcons.storeAlt,
-            size: 18,
+            FontAwesomeIcons.solidHeart,
+            size: 22,
           ),
-          title: Text("Loja"),
-          selectedColor: CustomColors.blue,
+          title: Text("Favoritos"),
+          selectedColor: Colors.redAccent,
         ),
 
         /// Profile
         SalomonBottomBarItem(
           icon: FaIcon(
             FontAwesomeIcons.solidUserCircle,
-            size: 24,
+            size: 22,
           ),
-          title: Text("Meu Perfil"),
+          title: Text("Perfil"),
           selectedColor: CustomColors.blue,
         ),
       ],

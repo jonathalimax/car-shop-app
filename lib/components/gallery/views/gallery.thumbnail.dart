@@ -6,19 +6,22 @@ import 'package:flutter/material.dart';
 class GalleryThumbnail extends StatelessWidget {
   final GalleryItem model;
   final GestureTapCallback onTap;
+  final String? origin;
 
   const GalleryThumbnail({
     required this.model,
     required this.onTap,
+    this.origin,
   });
 
   @override
   Widget build(BuildContext context) {
+    final tag = origin == null ? model.id : model.id + origin!;
     return Container(
       child: GestureDetector(
         onTap: onTap,
         child: Hero(
-          tag: model.id,
+          tag: tag,
           child: CachedNetworkImage(
             imageUrl: model.url,
             width: MediaQuery.of(context).size.width - 20,

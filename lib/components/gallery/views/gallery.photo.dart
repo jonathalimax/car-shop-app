@@ -11,6 +11,7 @@ class GalleryImage extends StatefulWidget {
   final PageController pageController;
   final List<GalleryItem> images;
   final Axis scrollDirection;
+  final String? tagComplement;
 
   GalleryImage({
     this.loadingBuilder,
@@ -18,6 +19,7 @@ class GalleryImage extends StatefulWidget {
     required this.startIndex,
     required this.images,
     required this.scrollDirection,
+    this.tagComplement,
   }) : pageController = PageController(initialPage: startIndex);
 
   @override
@@ -98,6 +100,9 @@ class _GalleryImageState extends State<GalleryImage> {
 
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
     final GalleryItem item = widget.images[index];
+    final tag = widget.tagComplement == null
+        ? item.id
+        : item.id + widget.tagComplement!;
     return PhotoViewGalleryPageOptions(
       imageProvider: CachedNetworkImageProvider(
         item.url,
@@ -106,7 +111,7 @@ class _GalleryImageState extends State<GalleryImage> {
       initialScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained,
       maxScale: PhotoViewComputedScale.covered,
-      heroAttributes: PhotoViewHeroAttributes(tag: item.id),
+      heroAttributes: PhotoViewHeroAttributes(tag: tag),
       filterQuality: FilterQuality.high,
     );
   }

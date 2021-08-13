@@ -1,9 +1,17 @@
+import 'package:car_shop_app/models/vehicles.model.dart';
+import 'package:car_shop_app/repositories/favorities.repository.dart';
 import 'package:car_shop_app/services/authentication.service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class LoginScreen extends StatefulWidget {
+  final Future Function()? onSuccessCallback;
+
+  LoginScreen({this.onSuccessCallback});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -12,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           'Login',
@@ -42,10 +51,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _googleSign(BuildContext context) async {
     await context.read<AuthenticationService>().signInWithGoogle();
+    await _updateFavoriteVehicles(context);
+    await _shouldPopWithCallback();
   }
 
   _appleSign(BuildContext context) async {
     await context.read<AuthenticationService>().signInWithApple();
+    await _updateFavoriteVehicles(context);
+    await _shouldPopWithCallback();
+  }
+
+  _updateFavoriteVehicles(BuildContext context) async {
+    final favorites = await context.read<FavoritiesRepository>().getAll();
+    if (_scaffoldKey.currentContext != null) {
+      final vehicleModel = Provider.of<VehiclesModel>(
+          _scaffoldKey.currentContext!,
+          listen: false);
+      vehicleModel.needsUpdate(favorites);
+    }
+  }
+
+  _shouldPopWithCallback() async {
+    if (widget.onSuccessCallback != null) {
+      await widget.onSuccessCallback!();
+      Navigator.pop(context);
+    }
   }
 
   Container logoImage() {

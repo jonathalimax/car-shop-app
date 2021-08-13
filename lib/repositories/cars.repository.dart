@@ -17,7 +17,10 @@ class CarsRepository {
 
   Future<List<Vehicle>> getAll() async {
     List<Vehicle> cars = [];
-    final snapshot = await database.collection('cars').get();
+    final snapshot = await database
+        .collection('cars')
+        .orderBy('createdAt', descending: true)
+        .get();
 
     await Future.forEach(snapshot.docs, (doc) async {
       final document = doc as QueryDocumentSnapshot<Map<String, dynamic>>;
@@ -57,8 +60,12 @@ class CarsRepository {
   }
 
   Future<List<GalleryItem>?> _getImagesByCar(String carId) async {
-    final images =
-        await database.collection('cars').doc(carId).collection('images').get();
+    final images = await database
+        .collection('cars')
+        .doc(carId)
+        .collection('images')
+        .orderBy('createdAt', descending: false)
+        .get();
 
     return images.docs.map((image) => GalleryItem.fromMap(image)).toList();
   }
