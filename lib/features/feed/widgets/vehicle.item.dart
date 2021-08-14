@@ -310,7 +310,7 @@ class _VehicleItemState extends State<VehicleItem> {
     if (loggedUser == null)
       return _openLoginScreen(
         context,
-        () async {
+        (context) async {
           final isFavorite = await context
               .read<FavoritiesRepository>()
               .isFavorite(widget.car.id);
@@ -326,12 +326,15 @@ class _VehicleItemState extends State<VehicleItem> {
     context
         .read<FavoritiesRepository>()
         .save(widget.car.id, loggedUser.uid)
-        .then((value) {
-      if (widget.shouldReloadScreen != null) {
-        widget.shouldReloadScreen!();
-      }
-      vehiclesModel.setFavorite(widget.car);
-    });
+        .then(
+      (value) {
+        vehiclesModel.setFavorite(widget.car);
+
+        if (widget.shouldReloadScreen != null) {
+          widget.shouldReloadScreen!();
+        }
+      },
+    );
   }
 
   _removeFavorite(BuildContext context) {
@@ -341,7 +344,7 @@ class _VehicleItemState extends State<VehicleItem> {
     if (loggedUser == null)
       return _openLoginScreen(
         context,
-        () async {
+        (context) async {
           final isFavorite = await context
               .read<FavoritiesRepository>()
               .isFavorite(widget.car.id);
@@ -359,33 +362,45 @@ class _VehicleItemState extends State<VehicleItem> {
         .remove(widget.car.id, loggedUser.uid)
         .then(
       (value) {
+        vehiclesModel.removeFavorite(widget.car);
+
         if (widget.shouldReloadScreen != null) {
           widget.shouldReloadScreen!();
         }
-        vehiclesModel.removeFavorite(widget.car);
       },
     );
   }
 
-  _openLoginScreen(BuildContext context, Future Function() onSuccess) {
+  _openLoginScreen(
+      BuildContext context, Future Function(BuildContext context) onSuccess) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        content: Text(
-          'Faça seu login para salvar esse veículo!',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-      ),
+      buildSnackbar(context),
     );
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => LoginScreen(
-          onSuccessCallback: onSuccess,
+          onSuccessCallback: () => onSuccess(context),
+        ),
+      ),
+    );
+  }
+
+  SnackBar buildSnackbar(BuildContext context) {
+    return SnackBar(
+      backgroundColor: Theme.of(context).primaryColor,
+      content: Container(
+        height: 20,
+        alignment: Alignment.center,
+        child: SafeArea(
+          child: Text(
+            'Realize o login para adicionar aos favoritos!',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
         ),
       ),
     );

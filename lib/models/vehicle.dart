@@ -25,6 +25,10 @@ class Vehicle {
     return '$manufactureDate/$modelDate';
   }
 
+  String get searchableString {
+    return '$brand $model';
+  }
+
   Vehicle({
     required this.id,
     required this.brand,

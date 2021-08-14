@@ -52,13 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
   _googleSign(BuildContext context) async {
     await context.read<AuthenticationService>().signInWithGoogle();
     await _updateFavoriteVehicles(context);
-    await _shouldPopWithCallback();
+    await _shouldPopWithCallback(context);
   }
 
   _appleSign(BuildContext context) async {
     await context.read<AuthenticationService>().signInWithApple();
     await _updateFavoriteVehicles(context);
-    await _shouldPopWithCallback();
+    await _shouldPopWithCallback(context);
   }
 
   _updateFavoriteVehicles(BuildContext context) async {
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  _shouldPopWithCallback() async {
+  _shouldPopWithCallback(BuildContext context) async {
     if (widget.onSuccessCallback != null) {
       await widget.onSuccessCallback!();
       Navigator.pop(context);
